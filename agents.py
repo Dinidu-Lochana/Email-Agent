@@ -1,23 +1,20 @@
 from crewai import Agent
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
-
+from tools import serper_tool
 import os
 import nest_asyncio
 
+# Fix asyncio event loop issues for Streamlit
 nest_asyncio.apply()
 
 load_dotenv()
 
 # Gemini model
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash",
-    google_api_key=os.getenv("GOOGLE_API_KEY"),
-    temperature=0.5,
-    verbose=True
-)
-
-
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",
+                             verbose=True, # Getting all details
+                             termperature=0.5, # Randomness
+                             google_api_key = os.getenv("GOOGLE_API_KEY"))
 
 # Emails catcher Agent
 email_catcher = Agent(
@@ -46,3 +43,4 @@ subject_agent = Agent(
     verbose=True,
     allow_delegation=True,
 )
+
