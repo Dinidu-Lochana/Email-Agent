@@ -10,10 +10,14 @@ nest_asyncio.apply()
 load_dotenv()
 
 # Gemini model
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash",
-                             verbose=True, # Getting all details
-                             termperature=0.5, # Randomness
-                             google_api_key = os.getenv("GOOGLE_API_KEY"))
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash",
+    google_api_key=os.getenv("GOOGLE_API_KEY"),
+    temperature=0.5,
+    verbose=True
+)
+
+
 
 # Emails catcher Agent
 email_catcher = Agent(
