@@ -1,5 +1,6 @@
 from crewai import Task
-from agents import email_catcher, body_creator, subject_agent
+from agents import email_catcher, body_creator, subject_agent, email_send_agent
+from tools import tools
 from textwrap import dedent
 
 def create_tasks(user_inputs):
@@ -49,4 +50,14 @@ def create_tasks(user_inputs):
         expected_output="A concise subject line, e.g., 'Project Deadline Extension'"
     )
 
-    return [email_catcher_task, subject_task, body_task]
+    send_email_task = Task(
+    description="""
+    Using the output from the previous agents, send an email using the tool provided.
+    The email should be sent to {to}, with the subject '{subject}' and body:
+    {body}
+    """,
+    agent=email_send_agent,
+    tools=tools
+)
+
+    return [email_catcher_task, subject_task, body_task, send_email_task]
